@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>krpano VR Viewer</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+        #pano {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <!-- krpano official viewer script -->
+    <script src="https://krpano.com/krpano.js"></script>
+</head>
+<body>
+
+<div id="pano"></div>
+
+<script>
+    // URL থেকে XML লিংক এক্সট্র্যাক্ট করার ফাংশন
+    function getXmlUrlFromQuery() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // ?xml=... অথবা ?&xml=... চেক করা
+        let xmlParam = urlParams.get('xml');
+        
+        if (!xmlParam) {
+            // যদি data:gsf,%3Ckrpano%3E... ফরম্যাটে থাকে তবে সেখান থেকে URL এক্সট্র্যাক্ট করা
+            const fullQuery = window.location.search;
+            const match = fullQuery.match(/include\s+url=["']?([^"'\s>]+)/i);
+            if (match && match[1]) {
+                xmlParam = match[1].replace(/^[\/\\\/]+/, 'https://'); // URL ফরম্যাট ঠিক করা
+            }
+        }
+
+        // কিছু না পাওয়া গেলে লোকাল ver.xml লোড হবে
+        return xmlParam || 'ver.xml';
+    }
+
+    const xmlTarget = getXmlUrlFromQuery();
+
+    // krpano ভিউয়ার চালু করা
+    embedpano({
+        swf: null,
+        xml: xmlTarget,
+        target: "pano",
+        html5: "auto",
+        mobilescale: 1.0,
+        passQueryParameters: true
+    });
+</script>
+
+</body>
+</html>

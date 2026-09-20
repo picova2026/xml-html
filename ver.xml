@@ -1,0 +1,7 @@
+<krpano>
+    <view hlookat="0" vlookat="0" fov="90" />
+    <preview url="https://krpano.com/tours/corfu/panos/1.tiles/preview.jpg" />
+    <image>
+        <cube url="https://krpano.com/tours/corfu/panos/1.tiles/pano_%s.jpg" />
+    </image>
+</krpano>
